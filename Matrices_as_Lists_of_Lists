@@ -10,6 +10,10 @@ from tabulate import tabulate
 
 # We'll hardcode the matrix as a list of lists
 # The nested lists function as the rows of the matrix
+def print_row(A, r):
+  for i in range(len(A[r])):
+    print(A[r][i], "\t", end="")
+  print("\n")
 
 row_1 = [3, -4, 0, 5]
 row_2 = [-1, -2, 3, 10]
@@ -28,20 +32,23 @@ N = copy.deepcopy(M)
 
 # Ask user to perform an elementary row operation
 operation_choice = input("Choose an operation to do:\n [r] to return a given row \n [c] to return a given column \n [ch] to change an entry \n [s] to multiply a row by a scalar \n [a] to add a multiple of a row to another row \n [i] to interchange two rows \n")
-row_choice = input("Choose a row to multiply by a scalar:  ")
-scalar = input("Enter a scalar to multiply by:  ")
-
-# Convert row_choice to the appropriate index for the list
-row = int(row_choice) - 1
-# Convert the string input to a float
-scalar = float(scalar)
-
-# Perform the elementary row operation
-for i in range(len(N[row])):
-  N[row][i]=scalar*N[row][i]
-
-print("Here is the new matrix:")
-print(tabulate(N))
+if operation_choice == "r":
+  row_choice = input("Choose a row to display: ")
+  row = int(row_choice) - 1
+  print("Here is row "+row_choice+": ")
+  print_row(M, row)
+elif operation_choice == "s":
+  row_choice = input("Choose a row to multiply by a scalar:  ")
+  scalar = input("Enter a scalar to multiply by:  ")
+  # Convert row_choice to the appropriate index for the list
+  row = int(row_choice) - 1
+  # Convert the string input to a float
+  scalar = float(scalar)
+  # Perform the elementary row operation
+  for i in range(len(N[row])):
+    N[row][i]=scalar*N[row][i]
+  print("Here is the new matrix:")
+  print(tabulate(N))
 
 
 
