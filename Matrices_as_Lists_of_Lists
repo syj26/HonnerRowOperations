@@ -14,6 +14,9 @@ def print_row(A, r):
   for i in range(len(A[r])):
     print(A[r][i], "\t", end="")
   print("\n")
+def print_col(A, c):
+  for i in range(len(A)):
+    print(A[i][c])
 
 row_1 = [3, -4, 0, 5]
 row_2 = [-1, -2, 3, 10]
@@ -37,6 +40,11 @@ if operation_choice == "r":
   row = int(row_choice) - 1
   print("Here is row "+row_choice+": ")
   print_row(M, row)
+elif operation_choice == "c":
+  col_choice = input("Choose a column to display: ")
+  col = int(col_choice) - 1
+  print("Here is col "+col_choice+": ")
+  print_col(M, col)
 elif operation_choice == "s":
   row_choice = input("Choose a row to multiply by a scalar:  ")
   scalar = input("Enter a scalar to multiply by:  ")
