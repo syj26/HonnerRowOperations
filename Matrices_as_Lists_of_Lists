@@ -27,6 +27,7 @@ print(tabulate(M))
 N = copy.deepcopy(M)
 
 # Ask user to perform an elementary row operation
+operation_choice = input("Choose an operation to do:\n [r] to return a given row \n [c] to return a given column \n [ch] to change an entry \n [s] to multiply a row by a scalar \n [a] to add a multiple of a row to another row \n [i] to interchange two rows \n")
 row_choice = input("Choose a row to multiply by a scalar:  ")
 scalar = input("Enter a scalar to multiply by:  ")
 
