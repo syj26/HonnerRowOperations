@@ -45,7 +45,7 @@ N = copy.deepcopy(M)
 # Ask user to perform an elementary row operation
 end = False
 while (not end):
-  operation_choice = input("Choose an operation to do:\n [r] to return a given row \n [c] to return a given column \n [ch] to change an entry \n [s] to multiply a row by a scalar \n [a] to add a multiple of a row to another row \n [i] to interchange two rows \n [e] to exit \n")
+  operation_choice = input("Choose an operation to do:\n [r] to return a given row \n [c] to return a given column \n [ch] to change an entry \n [s] to multiply a row by a scalar \n [a] to add a multiple of a row to another row \n [i] to interchange two rows \n [m] to enter a new matrix \n [e] to exit \n")
   if operation_choice == "r":
     row_choice = input("Choose a row to display: ")
     row = int(row_choice) - 1
@@ -82,6 +82,17 @@ while (not end):
     row_one = copy.copy(N[int(swapped_rows[0])-1])
     N[int(swapped_rows[0])-1]=N[int(swapped_rows[1])-1]
     N[int(swapped_rows[1])-1]=row_one
+    print("Here is the new matrix:")
+    print(tabulate(N))
+  elif operation_choice == "m":
+    row_count = int(input("How many rows would you like your matrix to have? "))
+    col_count = int(input("How many columns would you like your matrix to have? "))
+    N = [[0 for x in range(col_count)] for y in range(row_count)] 
+    for i in range(row_count):
+      new_row = (input("Enter in your "+str(i+1)+"th row here, with values separated by spaces: ")).split()
+      row_length = min(col_count, len(new_row))
+      for j in range(row_length): 
+        N[i][j]=int(new_row[j])
     print("Here is the new matrix:")
     print(tabulate(N))
   elif operation_choice == "e":
