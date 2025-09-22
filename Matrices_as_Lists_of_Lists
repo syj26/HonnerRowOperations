@@ -18,6 +18,15 @@ def print_col(A, c):
   for i in range(len(A)):
     print(A[i][c])
 
+def scalar_mult(A, row, scalar):
+  for i in range(len(A[row])):
+      A[row][i]=scalar*A[row][i]
+
+def add_rows(A, added, addend, scalar):
+  for i in range(len(A[added])):
+    A[added][i]=A[added][i]+scalar*A[addend][i]
+
+
 row_1 = [3, -4, 0, 5]
 row_2 = [-1, -2, 3, 10]
 row_3 = [4, 1, 1, 3]
@@ -34,29 +43,51 @@ print(tabulate(M))
 N = copy.deepcopy(M)
 
 # Ask user to perform an elementary row operation
-operation_choice = input("Choose an operation to do:\n [r] to return a given row \n [c] to return a given column \n [ch] to change an entry \n [s] to multiply a row by a scalar \n [a] to add a multiple of a row to another row \n [i] to interchange two rows \n")
-if operation_choice == "r":
-  row_choice = input("Choose a row to display: ")
-  row = int(row_choice) - 1
-  print("Here is row "+row_choice+": ")
-  print_row(M, row)
-elif operation_choice == "c":
-  col_choice = input("Choose a column to display: ")
-  col = int(col_choice) - 1
-  print("Here is col "+col_choice+": ")
-  print_col(M, col)
-elif operation_choice == "s":
-  row_choice = input("Choose a row to multiply by a scalar:  ")
-  scalar = input("Enter a scalar to multiply by:  ")
-  # Convert row_choice to the appropriate index for the list
-  row = int(row_choice) - 1
-  # Convert the string input to a float
-  scalar = float(scalar)
-  # Perform the elementary row operation
-  for i in range(len(N[row])):
-    N[row][i]=scalar*N[row][i]
-  print("Here is the new matrix:")
-  print(tabulate(N))
+end = False
+while (not end):
+  operation_choice = input("Choose an operation to do:\n [r] to return a given row \n [c] to return a given column \n [ch] to change an entry \n [s] to multiply a row by a scalar \n [a] to add a multiple of a row to another row \n [i] to interchange two rows \n [e] to exit \n")
+  if operation_choice == "r":
+    row_choice = input("Choose a row to display: ")
+    row = int(row_choice) - 1
+    print("Here is row "+row_choice+": ")
+    print_row(N, row)
+  elif operation_choice == "c":
+    col_choice = input("Choose a column to display: ")
+    col = int(col_choice) - 1
+    print("Here is col "+col_choice+": ")
+    print_col(N, col)
+  elif operation_choice == "ch":
+    row_choice = input("Input the row of the entry you are changing: ")
+    col_choice = input("Input the column of the entry you are changing: ")
+    new_val = input("Input the new value you would like to change the entry to: ")
+    N[int(row_choice)-1][int(col_choice)-1]=new_val
+    print("Here is your modified matrix: ")
+    print(tabulate(N))
+  elif operation_choice == "s":
+    row_choice = input("Choose a row to multiply by a scalar:  ")
+    scalar = input("Enter a scalar to multiply by:  ")
+    scalar_mult(N, int(row_choice)-1, float(scalar))
+    print("Here is the new matrix:")
+    print(tabulate(N))
+  elif operation_choice == "a":
+    added_row = input("What row are you adding to? ")
+    addend = input("You are adding a scalar multiple of which row to row "+added_row+"? ")
+    scalar = input("What multiple of row "+addend+" are you adding to row "+added_row+"? ")
+    add_rows(N, int(added_row)-1, int(addend)-1, float(scalar))
+    print("Here is the new matrix:")
+    print(tabulate(N))
+  elif operation_choice == "i":
+    user_rows = input("Input the two rows you are interchanging, separated by a space. ")
+    swapped_rows = user_rows.split()
+    row_one = copy.copy(N[int(swapped_rows[0])-1])
+    N[int(swapped_rows[0])-1]=N[int(swapped_rows[1])-1]
+    N[int(swapped_rows[1])-1]=row_one
+    print("Here is the new matrix:")
+    print(tabulate(N))
+  elif operation_choice == "e":
+    end = True
+
+
 
 
 
