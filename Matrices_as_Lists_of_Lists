@@ -89,7 +89,7 @@ while (not end):
     col_count = int(input("How many columns would you like your matrix to have? "))
     N = [[0 for x in range(col_count)] for y in range(row_count)] 
     for i in range(row_count):
-      new_row = (input("Enter in your "+str(i+1)+"th row here, with values separated by spaces: ")).split()
+      new_row = (input("Enter in row "+str(i+1)+" here, with values separated by spaces: ")).split()
       row_length = min(col_count, len(new_row))
       for j in range(row_length): 
         N[i][j]=int(new_row[j])
