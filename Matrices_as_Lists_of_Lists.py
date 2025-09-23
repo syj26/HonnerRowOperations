@@ -20,11 +20,11 @@ def print_col(A, c):
 
 def scalar_mult(A, row, scalar):
   for i in range(len(A[row])):
-      A[row][i]=scalar*A[row][i]
+      A[row][i]=scalar*A[row][i]+0
 
 def add_rows(A, added, addend, scalar):
   for i in range(len(A[added])):
-    A[added][i]=A[added][i]+scalar*A[addend][i]
+    A[added][i]=A[added][i]+scalar*A[addend][i]+0
 
 def interchange_rows(A, r1, r2):
   row_one = copy.copy(N[r1])
@@ -49,12 +49,18 @@ def rref(A):
         else:
           start_row += 1
           i += 1
-      start_col += 1
-      j += 1
+      if not has_top_row:
+        start_col += 1
+        j += 1
     if has_top_row:
       scalar_mult(A, start_row, 1/float(A[start_row][start_col]))
-    for i in range(start_row+1, row_count):
-      add_rows(A, i, start_row, -A[i][start_col])
+    for i in range(row_count):
+      if i != start_row:
+        add_rows(A, i, start_row, -A[i][start_col])
+    #for debugging purposes
+    print("start_row = "+str(start_row))
+    print("start_col = "+str(start_col))
+    print(tabulate(A))
     start_row += 1
     start_col += 1
 
@@ -78,44 +84,44 @@ N = copy.deepcopy(M)
 # Ask user to perform an elementary row operation
 end = False
 while (not end):
-  operation_choice = input("Choose an operation to do:\n [r] to return a given row \n [c] to return a given column \n [ch] to change an entry \n [s] to multiply a row by a scalar \n [a] to add a multiple of a row to another row \n [i] to interchange two rows \n [m] to enter a new matrix \n [e] to exit \n [rref] to put the matrix in reduced row echelon form \n")
-  if operation_choice == "r":
+  operation_choice = input("Choose an operation to do:\n [r] to return a given row \n [c] to return a given column \n [ch] to change an entry \n [s] to multiply a row by a scalar \n [a] to add a multiple of a row to another row \n [i] to interchange two rows \n [m] to enter a new matrix \n [rref] to put the matrix in reduced row echelon form \n [e] to exit \n")
+  if operation_choice.lower() == "r":
     row_choice = input("Choose a row to display: ")
     row = int(row_choice) - 1
     print("Here is row "+row_choice+": ")
     print_row(N, row)
-  elif operation_choice == "c":
+  elif operation_choice.lower() == "c":
     col_choice = input("Choose a column to display: ")
     col = int(col_choice) - 1
     print("Here is col "+col_choice+": ")
     print_col(N, col)
-  elif operation_choice == "ch":
+  elif operation_choice.lower() == "ch":
     row_choice = input("Input the row of the entry you are changing: ")
     col_choice = input("Input the column of the entry you are changing: ")
     new_val = input("Input the new value you would like to change the entry to: ")
     N[int(row_choice)-1][int(col_choice)-1]=new_val
     print("Here is your modified matrix: ")
     print(tabulate(N))
-  elif operation_choice == "s":
+  elif operation_choice.lower() == "s":
     row_choice = input("Choose a row to multiply by a scalar:  ")
     scalar = input("Enter a scalar to multiply by:  ")
     scalar_mult(N, int(row_choice)-1, float(scalar))
     print("Here is the new matrix:")
     print(tabulate(N))
-  elif operation_choice == "a":
+  elif operation_choice.lower() == "a":
     added_row = input("What row are you adding to? ")
     addend = input("You are adding a scalar multiple of which row to row "+added_row+"? ")
     scalar = input("What multiple of row "+addend+" are you adding to row "+added_row+"? ")
     add_rows(N, int(added_row)-1, int(addend)-1, float(scalar))
     print("Here is the new matrix:")
     print(tabulate(N))
-  elif operation_choice == "i":
+  elif operation_choice.lower() == "i":
     user_rows = input("Input the two rows you are interchanging, separated by a space. ")
     swapped_rows = user_rows.split()
     interchange(A, int(swapped_rows[0])-1, int(swapped_rows[1])-1)
     print("Here is the new matrix:")
     print(tabulate(N))
-  elif operation_choice == "m":
+  elif operation_choice.lower() == "m":
     row_count = int(input("How many rows would you like your matrix to have? "))
     col_count = int(input("How many columns would you like your matrix to have? "))
     N = [[0 for x in range(col_count)] for y in range(row_count)]
@@ -126,12 +132,14 @@ while (not end):
         N[i][j]=int(new_row[j])
     print("Here is the new matrix:")
     print(tabulate(N))
-  elif operation_choice == "rref":
+  elif operation_choice.lower() == "rref":
       rref(N)
       print("Here is the matrix in reduced row echelon form:")
       print(tabulate(N))
   elif operation_choice == "e":
     end = True
+  else:
+    print("Please enter a valid option.")
 
 
 
